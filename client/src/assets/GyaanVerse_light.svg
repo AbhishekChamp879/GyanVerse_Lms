@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GyaanVerse Logo — Light Background Version -->
+<!-- Use on: white backgrounds, mint/teal hero sections, light cards -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 52" width="220" height="52">
+
+  <!-- Paper plane icon (blue — matches CTA button #2563EB) -->
+  <g transform="translate(0, 6)">
+    <!-- Main body -->
+    <polygon points="0,0 38,14 0,28" fill="#2563EB"/>
+    <!-- Bottom fold shadow -->
+    <polygon points="0,14 17,14 13,28" fill="#1D4ED8"/>
+    <!-- Center fold line -->
+    <line x1="0" y1="14" x2="38" y2="14" stroke="#1849B5" stroke-width="1.2"/>
+  </g>
+
+  <!-- Wordmark (dark — readable on any light bg) -->
+  <text
+    x="48"
+    y="33"
+    font-family="'Trebuchet MS', 'Gill Sans', 'Century Gothic', sans-serif"
+    font-size="26"
+    font-weight="700"
+    letter-spacing="0.5"
+    fill="#1e293b"
+  >GyaanVerse</text>
+
+</svg>
