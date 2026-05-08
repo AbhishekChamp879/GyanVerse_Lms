@@ -5,14 +5,12 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 const MyCourses = () => {
-
-  const { currency, backendurl, isEducator, getToken } = useContext(AppContext)
+  const { currency, backendUrl, isEducator, getToken } = useContext(AppContext)
   const [courses, setCourses] = useState(null)
-
   const fetchEducatorCourses = async () => {
     try {
       const token = await getToken()
-      const { data } = await axios.get(backendurl + '/api/educator/courses',
+      const { data } = await axios.get(backendUrl + '/api/educator/courses',
         { headers: { Authorization: `Bearer ${token}` } })
 
       data.success && setCourses(data.courses)
@@ -24,8 +22,8 @@ const MyCourses = () => {
     if (isEducator) {
       fetchEducatorCourses()
     }
-  }, [isEducator])
 
+  }, [isEducator])
   return courses ? (
     <div className='h-screen flex flex-col items-start justify-between md:p-8 md:pb-0 p-4 pt-8 pb-0'>
       <div className='w-full'>

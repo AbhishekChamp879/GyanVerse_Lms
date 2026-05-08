@@ -4,7 +4,6 @@ import { Line } from 'rc-progress'
 import Footer from '../../components/student/Footer'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-
 const MyEnrollments = () => {
   const { enrolledCourses, calculateCourseDuration, navigate,
     userData, fetchUserEnrolledCourses, backendUrl, calculateNoOfLectures, getToken } = useContext(AppContext)

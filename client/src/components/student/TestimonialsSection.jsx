@@ -1,34 +1,31 @@
 import React from 'react'
-import { dummyTestimonial } from '../../assets/assets'
-import Rating from './Rating'
+import { assets, dummyTestimonial } from '../../assets/assets'
 
-const TestimonialSection = () => {
+const TestimonialsSection = () => {
   return (
     <div className='pb-14 px-8 md:px-0'>
       <h2 className='text-3xl font-medium text-gray-800'>Testimonials</h2>
-      <p className='text-sm md:text-base text-gray-500 mt-3 max-w-2xl mx-auto'>
-        Hear from our learners as they share their journeys of transformation, success, and how our<br/> platform made a difference in their lives.
-      </p>
-
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-14'>
+      <p className='md:text-base text-gray-500 mt-3'>Hear from our learners as they share their journeys of transformation, success,
+        and how our <br /> platform has made a difference in their lives.</p>
+      <div className='grid grid-cols-auto gap-8 mt-14'>
         {dummyTestimonial.map((testimonial, index) => (
-          <div key={index} className='text-left border border-gray-500/30 rounded-lg p-6 bg-white shadow-[0_4px_15px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.15)] transition-all duration-300'>
-            <div className='flex items-center gap-4 mb-4'>
-              <img
-                src={testimonial.image}
-                alt={testimonial.name}
-                className='w-12 h-12 rounded-full object-cover'
-              />
+          <div key={index} className='text-sm text-left border border-gray-500/30 pb-6 rounded-lg bg-white shadow-[0px_4px_15px_0px] shadow-black/5 overflow-hidden' >
+            <div className='flex items-center gap-4 px-5 py-4 bg-gray-500/10'>
+              <img className='h-12 w-12 rounded-full' src={testimonial.image} alt={testimonial.name} />
               <div>
-                <h4 className='font-semibold text-gray-800'>{testimonial.name}</h4>
-                <p className='text-gray-500 text-sm'>{testimonial.role}</p>
+                <h1 className='text-lg font-medium text-gray-800'>{testimonial.name}</h1>
+                <p className='text-gray-800/80'>{testimonial.role}</p>
               </div>
             </div>
-            <Rating rating={testimonial.rating} />
-            <p className='text-gray-500 mt-4 text-sm leading-relaxed'>
-              {testimonial.feedback}
-            </p>
-            <a href='#' className='text-blue-600 text-sm mt-4 inline-block hover:underline'>Read more</a>
+            <div className='p-5 pb-7'>
+              <div className='flex gap-0.5'>
+                {[...Array(5)].map((_, i) => (
+                  <img className='h-5' key={i} src={i < Math.floor(testimonial.rating) ? assets.star : assets.star_blank} alt="star" />
+                ))}
+              </div>
+              <p className='text-gray-500 mt-5'>{testimonial.feedback}</p>
+            </div>
+            <a href="#" className='text-blue-500 underline px-5'>Read more</a>
           </div>
         ))}
       </div>
@@ -36,4 +33,4 @@ const TestimonialSection = () => {
   )
 }
 
-export default TestimonialSection
+export default TestimonialsSection

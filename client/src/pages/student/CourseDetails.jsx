@@ -9,8 +9,6 @@ import Footer from '../../components/student/Footer'
 import YouTube from 'react-youtube'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-
-
 const CourseDetails = () => {
   const { id } = useParams()
   const [courseData, setCourseData] = useState(null)
