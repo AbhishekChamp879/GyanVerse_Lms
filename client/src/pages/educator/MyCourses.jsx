@@ -5,7 +5,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 const MyCourses = () => {
-  const { currency, backendUrl, isEducator, getToken } = useContext(AppContext)
+  const { currency, backendUrl, isEducator, getToken, navigate } = useContext(AppContext)
   const [courses, setCourses] = useState(null)
   const fetchEducatorCourses = async () => {
     try {
@@ -36,6 +36,7 @@ const MyCourses = () => {
                 <th className='px-4 py-3 font-semibold truncate'>Earnings</th>
                 <th className='px-4 py-3 font-semibold truncate'>Students</th>
                 <th className='px-4 py-3 font-semibold truncate'>Published On</th>
+                <th className='px-4 py-3 font-semibold truncate'>Actions</th>
               </tr>
             </thead>
             <tbody className='text-sm text-gray-500'>
@@ -51,6 +52,14 @@ const MyCourses = () => {
                       course.coursePrice / 100))}</td>
                   <td className='px-4 py-3'>{course.enrolledStudents.length}</td>
                   <td className='px-4 py-3'>{new Date(course.createdAt).toLocaleDateString()}</td>
+                  <td className='px-4 py-3'>
+                    <button
+                      onClick={() => navigate(`/educator/edit-course/${course._id}`)}
+                      className='bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition-colors'
+                    >
+                      Edit
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -9,6 +9,14 @@ import Rating from '../../components/student/Rating'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import Loading from '../../components/student/Loading'
+// Extract YouTube video ID from any URL format
+const getYouTubeVideoId = (url) => {
+  if (!url) return '';
+  const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : url;
+}
+
 const Player = () => {
   const { enrolledCourses, calculateChapterTime, backendUrl, getToken, userData,
     fetchUserEnrolledCourses } = useContext(AppContext)
@@ -168,13 +176,13 @@ const Player = () => {
           </div>
           <div className='flex items-center gap-2 py-3 mt-10'>
             <h1 className='text-xl font-bold'>Rate this Course:</h1>
-            <Rating initialRating={initialRating} onRate={handleRate} />
+            <Rating rating={initialRating} interactive={true} onRate={handleRate} />
           </div>
         </div>
         {/* right column */}
         <div className='md:mt-10'>
           {playerData ? (
-            <div><YouTube videoId={playerData.lectureUrl.split('/').pop()}
+            <div><YouTube videoId={getYouTubeVideoId(playerData.lectureUrl)}
               iframeClassName='w-full aspect-video' />
               <div className='flex justify-between items-center mt-1'>
                 <p>{playerData.chapter}.{playerData.lecture} {playerData.lectureTitle}</p>

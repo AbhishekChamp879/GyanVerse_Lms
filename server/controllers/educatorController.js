@@ -45,6 +45,40 @@ export const addCourse = async (req, res) => {
   }
 }
 
+// Update Existing Course
+export const updateCourse = async (req, res) => {
+  try {
+    const { courseId, courseData } = req.body
+    const imageFile = req.file
+    const educatorId = req.auth.userId
+
+    const course = await Course.findById(courseId)
+    if (!course) {
+      return res.json({ success: false, message: 'Course not found' })
+    }
+    if (course.educator !== educatorId) {
+      return res.json({ success: false, message: 'Unauthorized' })
+    }
+
+    const parsedCourseData = JSON.parse(courseData)
+    course.courseTitle = parsedCourseData.courseTitle
+    course.courseDescription = parsedCourseData.courseDescription
+    course.coursePrice = parsedCourseData.coursePrice
+    course.discount = parsedCourseData.discount
+    course.courseContent = parsedCourseData.courseContent
+
+    if (imageFile) {
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path)
+      course.courseThumbnail = imageUpload.secure_url
+    }
+
+    await course.save()
+    res.json({ success: true, message: 'Course Updated' })
+  } catch (error) {
+    res.json({ success: false, message: error.message })
+  }
+}
+
 //Get Educator Courses
 
 export const getEducatorCourses = async (req, res) => {
@@ -116,7 +150,7 @@ export const getEnrolledStudentsData = async (req, res) => {
     const enrolledStudents = purchases.map(purchase => ({
       student: purchase.userId,
       courseTitle: purchase.courseId.courseTitle,
-      purchaseData: purchase.createdAt
+      purchaseDate: purchase.createdAt || purchase._id.getTimestamp()
     }));
     res.json({ success: true, enrolledStudents })
   } catch (error) {

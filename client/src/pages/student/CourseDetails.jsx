@@ -9,6 +9,15 @@ import Footer from '../../components/student/Footer'
 import YouTube from 'react-youtube'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+
+// Extract YouTube video ID from any URL format
+const getYouTubeVideoId = (url) => {
+  if (!url) return '';
+  const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : url;
+}
+
 const CourseDetails = () => {
   const { id } = useParams()
   const [courseData, setCourseData] = useState(null)
@@ -133,7 +142,7 @@ const CourseDetails = () => {
                             <div className='flex gap-2'>
                               {lecture.isPreviewFree && <p
                                 onClick={() => setPlayerData({
-                                  videoId: lecture.lectureUrl.split('/').pop()
+                                  videoId: getYouTubeVideoId(lecture.lectureUrl)
                                 })}
                                 className='text-blue-500 cursor-pointer'>Preview</p>}
                               <p>{humanizeDuration(lecture.lectureDuration * 60 * 1000, { units: ['h', 'm'] })}</p>

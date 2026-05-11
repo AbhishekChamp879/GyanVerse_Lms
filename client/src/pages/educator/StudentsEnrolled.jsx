@@ -49,7 +49,7 @@ const StudentsEnrolled = () => {
                   <span className='trucate'>{item.student.name}</span>
                 </td>
                 <td className="px-4 py-3 truncate">{item.courseTitle}</td>
-                <td className='px-4 py-3 hidden sm:table-cell'>{new Date(item.purchaseDate).toLocaleDateString()}</td>
+                <td className='px-4 py-3 hidden sm:table-cell'>{item.purchaseDate ? new Date(item.purchaseDate).toLocaleDateString() : 'N/A'}</td>
               </tr>
             ))}
           </tbody>
