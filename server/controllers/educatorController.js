@@ -157,3 +157,35 @@ export const getEnrolledStudentsData = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 }
+
+// Delete Course
+export const deleteCourse = async (req, res) => {
+  try {
+    const { courseId } = req.body
+    const educatorId = req.auth.userId
+
+    const course = await Course.findById(courseId)
+    if (!course) {
+      return res.json({ success: false, message: 'Course not found' })
+    }
+    if (course.educator !== educatorId) {
+      return res.json({ success: false, message: 'Unauthorized' })
+    }
+
+    // Remove course from enrolled students
+    await User.updateMany(
+      { enrolledCourses: courseId },
+      { $pull: { enrolledCourses: courseId } }
+    )
+
+    // Delete related purchases
+    await Purchase.deleteMany({ courseId })
+
+    // Delete the course
+    await Course.findByIdAndDelete(courseId)
+
+    res.json({ success: true, message: 'Course deleted successfully' })
+  } catch (error) {
+    res.json({ success: false, message: error.message })
+  }
+}

@@ -18,6 +18,27 @@ const MyCourses = () => {
       toast.error(error.message)
     }
   }
+
+  const handleDeleteCourse = async (courseId, courseTitle) => {
+    if (!window.confirm(`Are you sure you want to delete "${courseTitle}"? This action cannot be undone.`)) {
+      return
+    }
+    try {
+      const token = await getToken()
+      const { data } = await axios.post(backendUrl + '/api/educator/delete-course',
+        { courseId },
+        { headers: { Authorization: `Bearer ${token}` } })
+      if (data.success) {
+        toast.success(data.message)
+        fetchEducatorCourses()
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
   useEffect(() => {
     if (isEducator) {
       fetchEducatorCourses()
@@ -53,12 +74,20 @@ const MyCourses = () => {
                   <td className='px-4 py-3'>{course.enrolledStudents.length}</td>
                   <td className='px-4 py-3'>{new Date(course.createdAt).toLocaleDateString()}</td>
                   <td className='px-4 py-3'>
-                    <button
-                      onClick={() => navigate(`/educator/edit-course/${course._id}`)}
-                      className='bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition-colors'
-                    >
-                      Edit
-                    </button>
+                    <div className='flex items-center gap-2'>
+                      <button
+                        onClick={() => navigate(`/educator/edit-course/${course._id}`)}
+                        className='bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition-colors'
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCourse(course._id, course.courseTitle)}
+                        className='bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600 transition-colors'
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
